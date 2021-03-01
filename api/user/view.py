@@ -16,3 +16,9 @@ class UserViewSet(viewsets.ModelViewSet):
             return serializers.UserSerializerDetail
         if self.action == "create":
             return serializers.UserSerializerCreate
+        if self.action == 'update':
+            return serializers.UserSerializerUpdate
+        return serializers.UserSerializerDetail
+
+    def turnoff_account(self):
+        pass

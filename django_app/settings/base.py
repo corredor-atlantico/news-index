@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'api',
     'core',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
 }
 
 ROOT_URLCONF = 'django_app.urls'

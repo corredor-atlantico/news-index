@@ -1,17 +1,35 @@
 from django.contrib import admin
+
 # Register your models here.
-from core.models import Message, New, Tag
+# Define a new User admin
+from core.models import Provider, Items, Recipe, Order, Subscription, SubscriptionType
 
 
-@admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
+@admin.register(Provider)
+class ProviderAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(New)
-class NewAdmin(admin.ModelAdmin):
+@admin.register(Items)
+class ItemsAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
+
+@admin.register(Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SubscriptionType)
+class SubscriptionTypeAdmin(admin.ModelAdmin):
     pass

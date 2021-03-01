@@ -4,41 +4,74 @@ from django.db import models
 from authentification.models import User
 
 
-class Tag(models.Model):
-    label = models.CharField(max_length=255)
-
-
-class New(models.Model):
-    uploader = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='new_sender', null=True)
-    url = models.URLField()
-    topic = models.CharField(max_length=255)
-    tags = models.ManyToManyField(Tag)
-
-
-class NewData(models.Model):
-    views_count = models.IntegerField(default=0)
-    share_count = models.IntegerField(default=0)
-
-
-class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='message_sender', null=True)
-    content = models.TextField()
-    parent_new = models.ForeignKey(New, null=True, on_delete=models.SET_NULL)
-    parent_message = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
-
-
-class MessageData(models.Model):
-    message = models.OneToOneField(Message, related_name='data', on_delete=models.SET_NULL, null=True)
-    sender = models.OneToOneField(User, related_name='user_valoration', on_delete=models.SET_NULL, null=True)
-    agree = models.BooleanField(default=False)
-    disagree = models.BooleanField(default=False)
-    offtopic = models.BooleanField(default=False)
-    context_value = models.FloatField(default=0.00)
-
-
-class Notification(models.Model):
-    service_name = models.CharField(max_length=255, null=True)
-    content = models.TextField(null=True)
+class Provider(models.Model):
+    name = models.CharField(max_length=255)
+    cif = models.CharField(max_length=11)
+    address = models.TextField()
 
     def __str__(self):
-        return self.service_name
+        return self.name
+
+
+class ItemGroup(models.Model):
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.description
+
+
+class Items(models.Model):
+    name = models.CharField(max_length=255)
+    stock_amount = models.FloatField(default=0)
+    order_amount = models.FloatField(default=0)
+    cost = models.FloatField(default=0)
+    type = models.ForeignKey(ItemGroup, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ItemProfile(models.Model):
+    item = models.OneToOneField(Items)
+    per_fat = models.FloatField()
+    per_sugar_raw = models.FloatField()
+    per_sugar_cooked = models.FloatField()
+
+
+class Recipe(models.Model):
+    name = models.CharField(max_length=255)
+    items = models.ManyToManyField(Items)
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+    deliver_datetime = models.DateTimeField()
+    deliver_address = models.CharField(max_length=255)
+    deliver_notes = models.TextField()
+
+    delivered = models.BooleanField(default=False)
+    confirmed = models.BooleanField(default=False)
+    cancelled = models.BooleanField(default=False)
+    recipe = models.ForeignKey(Recipe, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class SubscriptionType(models.Model):
+    description = models.CharField(max_length=255)
+    price = models.FloatField(default=0)
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.description
+
+
+class Subscription(models.Model):
+    type = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.start_date) + ' - ' + str(self.end_date)

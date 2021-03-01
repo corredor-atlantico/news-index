@@ -15,14 +15,8 @@ Including another URLconf
 """
 from rest_framework.routers import DefaultRouter
 
-from api.message.view import MessageViewSet
-from api.news.view import NewViewSet
-from api.tag.view import TagViewSet
 from api.user.view import UserViewSet
 
 router = DefaultRouter()
 
-router.register("messages", MessageViewSet, basename="messages")
-router.register("news", NewViewSet, basename="news")
-router.register("tag", TagViewSet, basename="tags")
 router.register("user", UserViewSet, basename="users")
