@@ -32,7 +32,7 @@ class Items(models.Model):
 
 
 class ItemProfile(models.Model):
-    item = models.OneToOneField(Items)
+    item = models.OneToOneField(Items, on_delete=models.SET_NULL, null=True)
     per_fat = models.FloatField()
     per_sugar_raw = models.FloatField()
     per_sugar_cooked = models.FloatField()

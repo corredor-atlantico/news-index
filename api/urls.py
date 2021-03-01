@@ -15,8 +15,14 @@ Including another URLconf
 """
 from rest_framework.routers import DefaultRouter
 
+from api.items.view import ItemViewSet
+from api.order.view import OrderViewSet
+from api.subscription.view import SubscriptionViewSet
 from api.user.view import UserViewSet
 
 router = DefaultRouter()
 
-router.register("user", UserViewSet, basename="users")
+router.register("users", UserViewSet, basename="users")
+router.register("orders", OrderViewSet,basename="orders")
+router.register("items", ItemViewSet, basename="items")
+router.register("subscriptions", SubscriptionViewSet, basename="subscriptions")
