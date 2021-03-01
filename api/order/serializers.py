@@ -43,6 +43,8 @@ class ConfirmUserOrderSerializer(serializers.ModelSerializer):
             instance.confirmed = True
             instance.save()
             return instance
+        else:
+            return None
 
 
 class ConfirmDeliverOrderSerializer(serializers.ModelSerializer):
@@ -55,6 +57,8 @@ class ConfirmDeliverOrderSerializer(serializers.ModelSerializer):
             instance.delivered = True
             instance.save()
             return instance
+        else:
+            return None
 
 
 class CancelOrderSerializer(serializers.ModelSerializer):
@@ -67,3 +71,5 @@ class CancelOrderSerializer(serializers.ModelSerializer):
             instance.cancelled = True
             instance.save()
             return instance
+        else:
+            return None

@@ -1,3 +1,6 @@
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from api.user import serializers
 from rest_framework import viewsets
 
@@ -18,7 +21,22 @@ class UserViewSet(viewsets.ModelViewSet):
             return serializers.UserSerializerCreate
         if self.action == 'update':
             return serializers.UserSerializerUpdate
+        if self.action == 'turnoff_service':
+            return serializers.UserSerializerDisable
+        if self.action == 'turnon_service':
+            return serializers.UserSerializerActive
         return serializers.UserSerializerDetail
 
-    def turnoff_account(self):
-        pass
+    @action(detail=True, methods=['post'])
+    def turnoff_service(self, request, pk=None):
+        serializer = self.get_serializer_class()
+        qs = self.get_queryset().get(id=pk)
+        disabled = serializer().deactivate_subscription(qs)
+        return Response(serializer(disabled).data)
+
+    @action(detail=True, methods=['post'])
+    def turnon_service(self, request, pk=None):
+        serializer = self.get_serializer_class()
+        qs = self.get_queryset().get(id=pk)
+        active = serializer().activate_subscription(qs)
+        return Response(serializer(active).data)

@@ -16,3 +16,4 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
             return serializers.SubscriptionSerializerDetail
         if self.action == 'update':
             return serializers.SubscriptionSerializerUpdate
+        return serializers.SubscriptionSerializerList

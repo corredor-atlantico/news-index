@@ -71,7 +71,8 @@ class Subscription(models.Model):
     type = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscriptions')
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.start_date) + ' - ' + str(self.end_date)

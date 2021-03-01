@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.order import serializers
@@ -29,27 +30,34 @@ class OrderViewSet(viewsets.ModelViewSet):
             return serializers.ConfirmDeliverOrderSerializer
         if self.action == 'cancel':
             return serializers.CancelOrderSerializer
+        return  serializers.OrderSerializerList
 
-    def confirm(self):
+    @action(detail=True, methods=['post'])
+    def confirm(self,request, pk=None):
         try:
             serializer = self.get_serializer_class()
-            response = serializer.confirm()
-            return Response(response)
+            order = self.get_queryset().get(user=pk)
+            confirmed = serializer().confirm(order)
+            return Response(serializer(confirmed).data)
         except Exception as err:
             return Response(err)
 
-    def deliver(self):
+    @action(detail=True, methods=['post'])
+    def deliver(self, request, pk=None):
         try:
             serializer = self.get_serializer_class()
-            response = serializer.deliver()
-            return Response(response)
+            order = self.get_queryset().get(user=pk)
+            delivered = serializer().deliver(order)
+            return Response(serializer(delivered).data)
         except Exception as err:
             return Response(err)
 
-    def cancel(self):
+    @action(detail=True, methods=['post'])
+    def cancel(self, request, pk=None):
         try:
             serializer = self.get_serializer_class()
-            response = serializer.cancel()
-            return Response(response)
+            order = self.get_queryset().get(user=pk)
+            cancelled = serializer().cancel(order)
+            return Response(serializer(cancelled).data)
         except Exception as err:
             return Response(err)

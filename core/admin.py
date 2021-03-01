@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 # Define a new User admin
-from core.models import Provider, Items, Recipe, Order, Subscription, SubscriptionType
+from core.models import Provider, Items, Recipe, Order, Subscription, SubscriptionType, ItemGroup, ItemProfile
 
 
 @admin.register(Provider)
@@ -14,6 +14,13 @@ class ProviderAdmin(admin.ModelAdmin):
 class ItemsAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(ItemGroup)
+class ItemGroupAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ItemProfile)
+class ItemProfileAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
